@@ -55,6 +55,15 @@ class UserRepository {
         `, [name, email, password, category_id, id]);
         return row;
       }
+
+      async findOne({
+           email, password
+         }){
+             const row = await db.query(`
+             SELECT email, password from users
+             `,[email, password])
+             return row
+         }
 }
 
 module.exports = new UserRepository();

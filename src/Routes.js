@@ -1,10 +1,14 @@
 const { Router } = require('express');
 
+const ProjectController = require('./app/controllers/ProjectController');
 const UserController =  require('./app/controllers/UserController');
 const CategoryController =  require('./app/controllers/CategoryController');
 
 const router = Router();
 
+router.get('/', ProjectController.index);
+
+router.post('/users', UserController.auth);
 router.get('/users', UserController.index);
 router.get('/users/:id', UserController.show);
 router.delete('/users/:id', UserController.delete);

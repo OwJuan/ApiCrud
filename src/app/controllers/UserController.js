@@ -1,6 +1,17 @@
 const UserRepository = require("./repositories/UserRepository");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const authConfig = require('../../config/auth.json');
+
+function generateToken(params = {}){
+    return jwt.sign(params, authConfig.secret,{
+        expiresIn: 86400,
+    })
+}
 
 class UserController {
+    
     async index(request, response) {
         //Listar todos os registros
         const { orderBy } = request.query;
@@ -41,7 +52,10 @@ class UserController {
         const user = await UserRepository.create({
             name, email, password, category_id,
         });
-        response.status(201).json(user)
+        response.status(201).json({
+            user,
+            token: generateToken({ id: user.id }),
+        })
     }
 
     async update(request, response) {
@@ -79,6 +93,27 @@ class UserController {
         await UserRepository.delete(id);
         //204: No Content
         response.sendStatus(204);
+    }
+
+    async auth(request, response) {
+        //autenticação LOGIN
+
+        const { email, password } = request.body;
+
+        const user = await UserRepository.findOne({ email, password });
+
+        if(!user)
+        return response.status(400).json({ error: 'User not found' });
+
+        if (!await bcrypt.compare(password, user.password))
+        return res.status(400).json({ error: 'Invalid password' });
+
+        user.password = undefined;
+
+        response.json({ 
+            user,
+            token: generateToken({id: user.id }),
+         });
     }
 }
 
