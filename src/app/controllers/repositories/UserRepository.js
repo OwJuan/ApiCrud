@@ -60,9 +60,11 @@ class UserRepository {
            email, password
          }){
              const row = await db.query(`
-             SELECT email, password from users
+             SELECT users.* FROM users
+             WHERE users.email = $1
+                AND users.password = $2
              `,[email, password])
-             return row
+            return row[0] ? row : undefined
          }
 }
 

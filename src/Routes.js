@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/', ProjectController.index);
 
-router.post('/users', UserController.auth);
+router.post('/auth/', UserController.auth);
 router.get('/users', UserController.index);
 router.get('/users/:id', UserController.show);
 router.delete('/users/:id', UserController.delete);

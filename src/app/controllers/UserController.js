@@ -105,15 +105,18 @@ class UserController {
         if(!user)
         return response.status(400).json({ error: 'User not found' });
 
-        if (!await bcrypt.compare(password, user.password))
-        return res.status(400).json({ error: 'Invalid password' });
+        // if (!await bcrypt.compare(password, user.password))
+        // return response.status(400).json({ error: 'Invalid password' });
 
-        user.password = undefined;
+        // user.password = undefined;
 
-        response.json({ 
-            user,
-            token: generateToken({id: user.id }),
-         });
+        if(user){
+        return response.json({ 
+                user,
+                token: generateToken({id: user.id }),
+            });
+        }
+        return response.json({error: 'User Invalid' });
     }
 }
 
