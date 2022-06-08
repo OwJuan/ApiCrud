@@ -118,6 +118,10 @@ class UserController {
         }
         return response.json({error: 'User Invalid' });
     }
+
+    async teste(req, res) {
+        res.send("Hello world!");
+    }
 }
 
 // Singleton
