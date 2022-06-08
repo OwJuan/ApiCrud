@@ -120,7 +120,7 @@ class UserController {
     }
 
     async teste(req, res) {
-        res.send("Hello world!");
+        res.json({message: 'Hello world!'});
     }
 }
 
