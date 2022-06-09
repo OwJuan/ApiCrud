@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run-script build",
-    "start": "npx nodemon node src/index.js"
+    "start": "node src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
