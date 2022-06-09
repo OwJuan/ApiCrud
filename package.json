@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "npm run-script build",
     "start": "npx nodemon node src/index.js"
   },
   "dependencies": {
