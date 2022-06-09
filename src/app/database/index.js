@@ -1,16 +1,23 @@
-const { Client } = require('pg');
+const sql = require('mssql');
 
-const client = new Client({
-    host: 'pfc-umc.database.windows.net',
-    port: 1433,
+const sqlConfig = {
     user: 'pfc-umc',
     password: '#Ju32244000',
-    database: 'chefeeletronico'
-});
+    database: 'chefeeletronico',
+    server: 'pfc-umc.database.windows.net',
+    pool: {
+        max: 10,
+        min: 0,
+    },
+    options: {
+        encrypt: true,
+        trustServerCertificate: false
+    }
+}
 
-client.connect();
+sql.connect(sqlConfig);
 
 exports.query = async (query, values) => {
-    const { rows } = await client.query(query, values);
+    const { rows } = await sql.query(query, values);
     return rows;
 };
