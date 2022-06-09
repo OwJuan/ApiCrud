@@ -6,9 +6,8 @@ const CategoryController =  require('./app/controllers/CategoryController');
 
 const router = Router();
 
-router.get('/', ProjectController.index);
+// router.get('/', ProjectController.index);
 
-router.get('/teste', UserController.teste);
 router.post('/auth/', UserController.auth);
 router.get('/users', UserController.index);
 router.get('/users/:id', UserController.show);

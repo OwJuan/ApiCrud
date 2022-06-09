@@ -1,23 +1,16 @@
-const sql = require('mssql');
+const { Client } = require('pg');
 
-const sqlConfig = {
-    user: 'pfc-umc',
+const client = new Client({
+    host: 'pfc-tcc-chefeeletronico.postgres.database.azure.com',
+    port: 5432,
+    user: 'pfc',
     password: '#Ju32244000',
-    database: 'chefeeletronico',
-    server: 'pfc-umc.database.windows.net',
-    pool: {
-        max: 10,
-        min: 0,
-    },
-    options: {
-        encrypt: true,
-        trustServerCertificate: false
-    }
-}
+    database: 'postgres'
+});
 
-sql.connect(sqlConfig);
+client.connect();
 
 exports.query = async (query, values) => {
-    const { rows } = await sql.query(query, values);
+    const { rows } = await client.query(query, values);
     return rows;
 };
