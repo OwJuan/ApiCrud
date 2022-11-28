@@ -4,6 +4,7 @@ const { Router } = require("express");
 const UserController = require("./app/controllers/UserController");
 const CategoryController = require("./app/controllers/CategoryController");
 const ProductController = require("./app/controllers/ProductController");
+const OrderController = require("./app/controllers/OrderController");
 
 const router = Router();
 
@@ -24,5 +25,7 @@ router.post("/products", ProductController.store);
 router.get("/products/:id", ProductController.show);
 router.delete("/products/:id", ProductController.delete);
 router.put("/products/:id", ProductController.update);
+
+router.post("/orders", OrderController.store);
 
 module.exports = router;
