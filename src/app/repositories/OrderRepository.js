@@ -1,4 +1,4 @@
-const db = require("../../database");
+const db = require("../database");
 
 class OrderRepository {
   async create({ userId, total }) {
@@ -18,7 +18,7 @@ class OrderRepository {
       `         
                 SELECT products.*
                 FROM products
-                WHERE producs.price = $1
+                WHERE products.price = $1
                 RETURNING *
             `,
       [productId]
@@ -26,13 +26,14 @@ class OrderRepository {
     return price;
   }
 
-  async orderList({ orderList }) {
+  async order({ orderId, products, price, quantity }) {
     const [row] = await db.query(
       `
-        INSERT INTO order_products(product, quantity, price)
-        VALUES(1$, $2, $3)
+        INSERT INTO order_products(orderId, products, price, quantity,)
+        VALUES($1, $2, $3, $4)
         RETURNING *
-    `[orderList]
+    `,
+      [orderId, products, price, quantity]
     );
     return row;
   }
