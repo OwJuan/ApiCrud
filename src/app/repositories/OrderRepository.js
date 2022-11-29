@@ -1,6 +1,16 @@
 const db = require("../database");
 
 class OrderRepository {
+  async findAll(orderBy = "ASC") {
+    const direction = orderBy.toUpperCase() === "DESC" ? "DESC" : "ASC";
+    const rows = await db.query(`
+            SELECT orders.*
+            FROM orders
+            LEFT JOIN
+            ORDER BY orders.userId ${direction}`);
+    return rows;
+  }
+
   async create({ userId, total }) {
     const [row] = await db.query(
       `

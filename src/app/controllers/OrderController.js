@@ -3,8 +3,24 @@ const OrderRepository = require("../repositories/OrderRepository");
 class OrderController {
   //AQUI VAI A CRIAÇÃO E CONTROLE DE PEDIDOS
 
+  //LISTAGEM DE PEDIDOS
+  async index(request, response) {
+    //Listar todos os registros
+    const { orderBy } = request.query;
+    const orders = await OrderRepository.findAll(orderBy);
+
+    response.json(orders);
+  }
+
+  //CRIAÇÃO DE PEDIDOS
   async store(request, response) {
     const { userId, orderList = [id, product, price, quantity] } = request.body;
+
+    const status = {
+      "Na fila": 1,
+      "Sendo Preparado": 2,
+      "Pedido Finalizado": 3,
+    };
 
     let orderProduct;
 
@@ -39,6 +55,7 @@ class OrderController {
     const order = await OrderRepository.create({
       userId,
       total,
+      status,
     });
     response.status(201).json(order);
   }
