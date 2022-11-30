@@ -16,12 +16,6 @@ class OrderController {
   async store(request, response) {
     const { userId, orderList = [id, product, price, quantity] } = request.body;
 
-    const status = {
-      "Na fila": 1,
-      "Sendo Preparado": 2,
-      "Pedido Finalizado": 3,
-    };
-
     let orderProduct;
 
     for (let index = 0; index < orderList; index++) {
@@ -55,7 +49,6 @@ class OrderController {
     const order = await OrderRepository.create({
       userId,
       total,
-      status,
     });
     response.status(201).json(order);
   }

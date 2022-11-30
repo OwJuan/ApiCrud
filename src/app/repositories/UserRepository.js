@@ -7,7 +7,7 @@ class UserRepository {
             SELECT users.*, categories.name AS category_name
             FROM users
             LEFT JOIN categories ON categories.id = users.category_id
-            ORDER BY users.name ${direction}`);
+            ORDER BY users.email ${direction}`);
     return rows;
   }
 
@@ -40,28 +40,28 @@ class UserRepository {
     return deleteOp;
   }
 
-  async create({ name, email, password, category_id }) {
+  async create({ email, password, category_id }) {
     const [row] = await db.query(
       `
-            INSERT INTO users(name, email, password, category_id)
-            VALUES($1, $2, $3, $4)
+            INSERT INTO users( email, password, category_id)
+            VALUES($1, $2, $3)
             RETURNING *
         `,
-      [name, email, password, category_id]
+      [email, password, category_id]
     );
 
     return row;
   }
 
-  async update(id, { name, email, password, category_id }) {
+  async update(id, { email, password, category_id }) {
     const [row] = await db.query(
       `
         UPDATE users
-        SET name = $1, email = $2, password = $3, category_id = $4
-        WHERE id = $5
+        SET email = $1, password = $2, category_id = $3
+        WHERE id = $4
         RETURNING *
         `,
-      [name, email, password, category_id, id]
+      [email, password, category_id, id]
     );
     return row;
   }

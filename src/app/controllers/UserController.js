@@ -34,11 +34,7 @@ class UserController {
 
   async store(request, response) {
     //Criar novo registro
-    const { name, email, password, category_id } = request.body;
-
-    if (!name) {
-      return response.status(400).json({ error: "Name is required" });
-    }
+    const { email, password, category_id } = request.body;
 
     const userExists = await UserRepository.findByEmail(email);
 
@@ -49,7 +45,6 @@ class UserController {
     }
 
     const user = await UserRepository.create({
-      name,
       email,
       password,
       category_id,
@@ -63,15 +58,11 @@ class UserController {
   async update(request, response) {
     //Editar um registro
     const { id } = request.params;
-    const { name, email, password, category_id } = request.body;
+    const { email, password, category_id } = request.body;
 
     const userExists = await UserRepository.findById(id);
     if (!userExists) {
       return response.status(404).json({ error: "User not found " });
-    }
-
-    if (!name) {
-      return response.status(400).json({ error: "Name is Required " });
     }
 
     const userByEmail = await UserRepository.findByEmail(email);
@@ -82,7 +73,6 @@ class UserController {
     }
 
     const user = await UserRepository.update(id, {
-      name,
       email,
       password,
       category_id,
